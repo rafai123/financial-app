@@ -5,8 +5,9 @@ import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Plus } from "lucide-react"
-import { Payment, columns } from "./columns"
+import { columns } from "./columns"
 import { DataTable } from "@/components/data-table"
+import { useGetAccounts } from "@/features/accounts/api/use-get-accounts"
 
 // async function getData(): Promise<Payment[]> {
 //     // Fetch data from your API here.
@@ -21,31 +22,33 @@ import { DataTable } from "@/components/data-table"
 //     ]
 //   }
 
-const data: Payment[] = [
-    {
-        id: "728ed52f",
-        amount: 100,
-        status: "pending",
-        email: "m@example.com",
-    },
-    {
-        id: "728ed52f",
-        amount: 100,
-        status: "pending",
-        email: "rafaimhd123@gmail.com",
-    },
-    {
-        id: "728ed52f",
-        amount: 100,
-        status: "success",
-        email: "kitaIkuyo@anim.com",
-      // ...
-    }
-]
+// const data: Payment[] = [
+//     {
+//         id: "728ed52f",
+//         amount: 100,
+//         status: "pending",
+//         email: "m@example.com",
+//     },
+//     {
+//         id: "728ed52f",
+//         amount: 100,
+//         status: "pending",
+//         email: "rafaimhd123@gmail.com",
+//     },
+//     {
+//         id: "728ed52f",
+//         amount: 100,
+//         status: "success",
+//         email: "kitaIkuyo@anim.com",
+//       // ...
+//     }
+// ]
 
 const AccountPage = () => {
 
     const {onOpen} = useNewAccount()
+    const accountsQuery = useGetAccounts()
+    const accounts = accountsQuery.data || []
 
     return (
         <>
@@ -65,9 +68,11 @@ const AccountPage = () => {
                     </CardHeader>
                     <CardContent>
                         <DataTable 
-                            filterKey="email"
+                            filterKey="name"
                             columns={columns} 
-                            data={data} 
+                            data={accounts} 
+                            onDelete={() => {}}
+                            disabled={false}
                         />
                     </CardContent>
                 </Card>
