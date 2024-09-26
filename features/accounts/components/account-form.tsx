@@ -56,11 +56,11 @@ export const AccountForm = ({
     }
 
     return (
-        <>
+        <div className="pt-2">
             <Form {...form} >
                 <form 
                     onSubmit={form.handleSubmit(handleSubmit)} 
-                    className="space-y-4 pt-4 gap-4  grid"
+                    className="space-y-4 gap-4  grid"
                 > 
                     <FormField 
                         control={form.control}
@@ -98,6 +98,6 @@ export const AccountForm = ({
                     )}
                 </form>
             </Form>
-        </>
+        </div>
     )
 }
