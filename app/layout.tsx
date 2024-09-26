@@ -3,7 +3,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from 'next/font/google';
+
 import QueryProvider from "@/providers/query-provider";
+import SheetProvider from "@/providers/sheet-provider";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,6 +42,8 @@ export default function RootLayout({
           className={`${inter.className} antialiased`}
         >
           <QueryProvider>
+            <SheetProvider />
+            <Toaster />
             {children}
           </QueryProvider>
         </body>
