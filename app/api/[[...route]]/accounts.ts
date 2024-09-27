@@ -6,9 +6,10 @@ import * as schema from "@/db/schema"
 import { Client } from "@neondatabase/serverless";
 import { db } from "@/db/drizzle";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2"
+import { z } from "zod"
 
 const app = new Hono()
     .get("/", 
@@ -53,6 +54,37 @@ const app = new Hono()
         }).returning()
 
         return c.json({ data })
+        }
+    )
+    .post(
+        "/bulk-delete",
+        clerkMiddleware(),
+        zValidator(
+            "json",
+            z.object({
+                ids: z.array(z.string())
+            }),
+        ),
+        async c => {
+            const auth = getAuth(c)
+            const values = c.req.valid("json")
+
+            if (!auth?.userId) {
+                return c.json({error: "Unauthorized"}, 401)
+            }
+
+            const data = await db.delete(schema.accounts)
+                .where(
+                    and(
+                        eq(schema.accounts.userId, auth.userId),
+                        inArray(schema.accounts.id, values.ids)
+                    )
+                )
+                .returning({
+                    id: schema.accounts.id
+                })
+
+            return c.json({ data }) 
         }
     )
 
