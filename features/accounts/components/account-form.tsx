@@ -1,5 +1,5 @@
 import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts"
-import { useCreateAccount } from "@/features/accounts/hooks/use-create-account"
+import { useCreateAccount } from "@/features/accounts/api/use-create-account"
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { insertAccountSchema } from "@/db/schema"
