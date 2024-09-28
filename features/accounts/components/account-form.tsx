@@ -40,16 +40,16 @@ export const AccountForm = ({
         defaultValues: defaultValues,
     })
 
-    const handleSubmit = (values: FormValues) => {
-        // console.log(values)
-        // onSubmit(values)
-        mutate.mutate(values, {
-            onSuccess: () => {
-                onClose()
-            }
-        })
-        // onClose()
-    }
+    // const handleSubmit = (values: FormValues) => {
+    //     // console.log(values)
+    //     // onSubmit(values)
+    //     mutate.mutate(values, {
+    //         onSuccess: () => {
+    //             onClose()
+    //         }
+    //     })
+    //     // onClose()
+    // }
 
     const  handleDelete = () => {
         onDelete?.()
@@ -59,7 +59,7 @@ export const AccountForm = ({
         <div className="pt-2">
             <Form {...form} >
                 <form 
-                    onSubmit={form.handleSubmit(handleSubmit)} 
+                    onSubmit={form.handleSubmit(onSubmit)} 
                     className="space-y-4 gap-4  grid"
                 > 
                     <FormField 
@@ -80,7 +80,7 @@ export const AccountForm = ({
                             </FormItem>
                         )}
                     />
-                    <Button className="w-full m-4" disabled={mutate.isPending} >
+                    <Button className="w-full m-4" disabled={ mutate.isPending || disabled } >
                         {id ? "Save Changes" : "Create Account"}
                     </Button>
                     {!!id && (

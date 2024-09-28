@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { AccountForm } from "./account-form"
 import { z } from "zod"
 import { insertAccountSchema } from "@/db/schema"
+import { useCreateAccount } from "../api/use-create-account"
 
 const FormSchema = insertAccountSchema.pick({
     name: true,
@@ -13,9 +14,17 @@ type FormValues = z.input<typeof FormSchema>
 
 const NewAccountSheet = () => {
     const {isOpen, onClose, onOpen} = useNewAccount()
+    const mutate = useCreateAccount()
 
     const onSubmit = (values: FormValues) => {
         console.log({values})
+
+        mutate.mutate(values, {
+            onSuccess: () => {
+                onClose()
+            }
+        })
+        // console.log("test submit")
     }
 
     return (

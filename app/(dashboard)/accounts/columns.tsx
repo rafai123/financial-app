@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { client } from "@/lib/hono"
 import { InferResponseType } from "hono"
+import { Actions } from "./Actions"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -46,4 +47,18 @@ export const columns: ColumnDef<ResponseType>[] = [
         )
     }
   },
+  {
+    accessorKey: "Edit",
+    header: ({column}) => {
+      return (
+        <p>Action</p>
+      )
+    
+    },
+    cell: ({row}) => {
+      return (
+        <Actions id={row.original.id} />
+      )
+    }
+  }
 ]
