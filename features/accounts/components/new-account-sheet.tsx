@@ -41,7 +41,7 @@ const NewAccountSheet = () => {
                     </SheetHeader>
                     <AccountForm 
                         onSubmit={onSubmit}
-                        disabled={false}
+                        disabled={mutate.isPending}
                         defaultValues={{
                             name: ""
                         }}
