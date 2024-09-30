@@ -5,6 +5,7 @@ import { z } from "zod"
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 
 import authors from "./authors"
+import categories from "./categories" 
 import books from "./books"
 import accounts from "./accounts"
 // import { HTTPException } from "hono/http-exception"
@@ -23,6 +24,7 @@ const app = new Hono().basePath('/api')
 
 const routes = app
     .route("/accounts", accounts)
+    .route("/categories", categories)
     .route("/authors", authors)
     .route("/books", books)
 

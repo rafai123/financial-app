@@ -15,6 +15,13 @@
       "when": 1726421869379,
       "tag": "0001_fair_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1727694098443,
+      "tag": "0002_pale_sabra",
+      "breakpoints": true
     }
   ]
 }
