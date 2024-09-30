@@ -1,7 +1,6 @@
-import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts"
+
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account"
 import { useGetAccount } from "@/features/accounts/api/use-get-account"
-import { useCreateAccount } from "@/features/accounts/api/use-create-account"
 
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { AccountForm } from "./account-form"
@@ -46,8 +45,11 @@ const EditAccountSheet = () => {
         const ok = await confirm()
 
         if (ok) {
-            deleteMutate.mutate()
-            // onClose()
+            deleteMutate.mutate(undefined, {
+                onSuccess: () => {
+                    onClose()
+                }
+            })
         }
     }
 
