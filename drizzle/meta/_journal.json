@@ -22,6 +22,13 @@
       "when": 1727694098443,
       "tag": "0002_pale_sabra",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1727837549293,
+      "tag": "0003_swift_northstar",
+      "breakpoints": true
     }
   ]
 }
