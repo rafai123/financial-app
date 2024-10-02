@@ -95,14 +95,20 @@ const app = new Hono()
 
             const [data] = await db
                 .select({
-                    id: schema.categories.id,
-                    name: schema.categories.name,
+                    id: transactions.id,
+                    amount: transactions.amount,
+                    payee: transactions.payee,
+                    notes: transactions.notes,
+                    date: transactions.date,
+                    accountId: transactions.accountId,
+                    categoryId: transactions.categoryId,
                 })
-                .from(schema.categories)
+                .from(transactions)
+                .innerJoin(transactions, eq(transactions.accountId, accounts.id))
                 .where(
                     and(
-                        eq(schema.categories.userId, auth.userId),
-                        eq(schema.categories.id, id)
+                        eq(transactions.id, id),
+                        eq(accounts.userId, auth.userId)
                     ),
                 );
 
