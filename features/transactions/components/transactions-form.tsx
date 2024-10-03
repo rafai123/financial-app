@@ -2,7 +2,7 @@ import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts"
 import { useCreateAccount } from "@/features/accounts/api/use-create-account"
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
-import { insertAccountSchema } from "@/db/schema"
+import { insertAccountSchema, insertTransactionSchema } from "@/db/schema"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,26 +10,44 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 
-const formSchema = insertAccountSchema.pick({
-    name: true,
+const formSchema = z.object({
+    amount: z.string(),
+    payee: z.string(),
+    notes: z.string().nullable().optional(),
+    date: z.coerce.date(),
+    accountId: z.string(),
+    categoryId: z.string().nullable().optional(),
+})
+
+const apiSchema = insertTransactionSchema.omit({
+    id: true
 })
 
 type FormValues = z.input<typeof formSchema>
+type ApiFormValues = z.input<typeof apiSchema>
 
 type Props = {
     id?: string
     defaultValues?: FormValues
-    onSubmit: (values: FormValues) => void
+    onSubmit: (values: ApiFormValues) => void
     onDelete?: () => void
     disabled?: boolean
+    accountOptions: { label: string, value: string }[]
+    categoryOptions: { label: string, value: string }[]
+    onCreateAccount: (name: string) => void
+    onCreateCategory: (name: string) => void
 }
 
-export const AccountForm = ({
+export const TransactionForm = ({
     id,
     defaultValues,
     onSubmit,
     onDelete,
-    disabled
+    disabled,
+    accountOptions,
+    categoryOptions,
+    onCreateAccount,
+    onCreateCategory
 }: Props) => {
 
     const  mutate = useCreateAccount()
