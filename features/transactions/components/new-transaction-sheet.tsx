@@ -45,8 +45,7 @@ const NewTransactionSheet = () => {
   const isLoading = categoryQuery.isLoading || accountQuery.isLoading
 
   const onSubmit = (values: FormValues) => {
-    console.log({ values });
-
+    // console.log({ values });
     createMutation.mutate(values, {
       onSuccess: () => {
         onClose();
@@ -58,7 +57,7 @@ const NewTransactionSheet = () => {
   return (
     <>
       <Sheet open={isOpen} onOpenChange={onClose}>
-        <SheetContent className="space-y-4">
+        <SheetContent className="space-y-4 overflow-auto" onClick={(e) => e.stopPropagation()}>
           <SheetHeader>
             <SheetTitle>New Transaction</SheetTitle>
             <SheetDescription>Create a new transaction to track your transactions.</SheetDescription>

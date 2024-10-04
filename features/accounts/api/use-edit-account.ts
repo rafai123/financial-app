@@ -20,8 +20,10 @@ export const useEditAccount = (id:string) => {
 
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["account"]})
             queryClient.invalidateQueries({queryKey: ["accounts"]})
+            queryClient.invalidateQueries({queryKey: ["transactions"]})
+            queryClient.invalidateQueries({queryKey: ["account"]})
+            queryClient.invalidateQueries({queryKey: ["transaction"]})
             toast.success("Account name has been successfully changed")
         },
         onError: () => {

@@ -20,8 +20,10 @@ export const useEditCategory = (id:string) => {
 
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["category"]})
             queryClient.invalidateQueries({queryKey: ["categories"]})
+            queryClient.invalidateQueries({queryKey: ["transactions"]})
+            queryClient.invalidateQueries({queryKey: ["category"]})
+            queryClient.invalidateQueries({queryKey: ["transaction"]})
             toast.success("Category name has been successfully changed")
         },
         onError: () => {

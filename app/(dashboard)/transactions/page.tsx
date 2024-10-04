@@ -1,7 +1,7 @@
 "use client"
 
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction"
-import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts"
+import { useGetTransactions } from "@/features/transactions/api/use-get-transactions"
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts"
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete"
 
@@ -11,17 +11,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Plus } from "lucide-react"
 import { DataTable } from "@/components/data-table"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions"
 
 const TransactionsPage = () => {
 
     const {onOpen} = useNewTransaction()
-    const accountsQuery = useGetAccounts()
-    const accounts = accountsQuery.data || []
-    const deleteAccount = useBulkDeleteAccounts()
+    const transactionsQuery = useGetTransactions()
+    const transactions = transactionsQuery.data || []
+    const deleteTransactions = useBulkDeleteTransactions()
 
-    const isDisabled = accountsQuery.isLoading || deleteAccount.isPending
+    const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending
 
-    if (accountsQuery.isLoading) {
+    if (transactionsQuery.isLoading) {
         return (
             <div className="max-2-screen-2xl w-full mx-auto pb-10 -mt-24">
                 <Card className="border-none drop-shadow-sm">
@@ -44,7 +45,7 @@ const TransactionsPage = () => {
                 <Card className="border-none drop-shadow-sm ">
                     <CardHeader className="flex gap-y-2 lg:flex-row lg:items-center lg:justify-between">
                         <CardTitle className="text-xl line-clamp-1">
-                            Accounts Page
+                            Last 30 days transactions history
                         </CardTitle>
                         <Button
                             size="sm"
@@ -58,10 +59,10 @@ const TransactionsPage = () => {
                         <DataTable 
                             filterKey="name"
                             columns={columns} 
-                            data={accounts} 
+                            data={transactions} 
                             onDelete={(row) => {
                                 const ids = row.map((r) => r.original.id)
-                                deleteAccount.mutate({ids})
+                                deleteTransactions.mutate({ids})
                             }}
                             disabled={isDisabled}
                         />
